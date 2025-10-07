@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { Trophy, Sprout } from "lucide-react";
 
 export default function Home() {
   const [data, setPosts] = useState([]);
@@ -11,7 +12,8 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <Navbar />
+      <Navbar mode={"1"} />
+      <List />
       <ul>
         {data.map((volunteer) => (
           <li key={volunteer.volunteers_id}>
@@ -25,7 +27,7 @@ export default function Home() {
 
 function Header() {
   return (
-    <header class="bg-[#039668] text-white text-center p-5 mb-4">
+    <header class="bg-[#039668] text-white text-center p-5">
       <h1 class="text-xl font-bold">♻️ Adaction</h1>
       <p class="text-sm text-[#A6F3D0]">
         Agir pour un environnement plus propre
@@ -34,43 +36,50 @@ function Header() {
   );
 }
 
-function Navbar() {
+function Navbar({ mode }) {
   return (
-    <nav class="flex space-x-4 bg-white p-4 rounded-lg shadow">
-      <button class="flex items-center space-x-2 text-gray-500 hover:text-gray-700">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4"
-          />
-        </svg>
-        <span>Gestion des bénévoles</span>
-      </button>
-      <button class="flex items-center space-x-2 text-green-600 bg-green-50 px-3 py-2 rounded-lg">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12l2 2 4-4m1 5a9 9 0 11-8-8"
-          />
-        </svg>
-        <span>Leaderboard</span>
-      </button>
+    <nav class="flex space-x-4 bg-white p-4 shadow">
+      <div class="flex space-x-4 items-center justify-center w-full">
+        {mode === "1" && (
+          <>
+            <div class="flex gap-1 flex-col md:gap-3 md:flex-row items-center bg-[#ECFDF5] rounded-xl ">
+              <Sprout color="#039668" class="mt-2 md:mt-0" />
+              <a
+                href="#"
+                class="text-[#039668]  hover:text-gray-900 mx-2 mb-2 md:mb-0 md:mx-0"
+              >
+                Gestion des bénévoles
+              </a>
+            </div>
+            <div class="flex gap-1 flex-col md:gap-3 md:flex-row items-center mx-2">
+              <Trophy color="#6C7280" />
+              <a href="#" class="text-[#6C7280] hover:text-gray-900 ">
+                Leaderboard
+              </a>
+            </div>
+          </>
+        )}
+        {mode === "2" && (
+          <>
+            <div class="flex gap-1 flex-col md:gap-3 md:flex-row items-center ">
+              <Sprout color="#6C7280" />
+              <a
+                href="#"
+                class="text-[#6C7280]  hover:text-gray-900 "
+              >
+                Gestion des bénévoles
+              </a>
+            </div>
+            <div class="flex gap-1 flex-col md:gap-3 md:flex-row items-center mx-2  bg-[#ECFDF5] rounded-xl ">
+              <Trophy color="#039668" class="mt-2 md:mt-0"/>
+              <a href="#" class="text-[#039668] hover:text-gray-900 mx-2 mb-2 md:mb-0 md:mx-0">
+                Leaderboard
+              </a>
+            </div>
+          </>
+        )}
+      </div>
     </nav>
   );
 }
+
