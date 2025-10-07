@@ -13,7 +13,6 @@ export default function Home() {
     <div>
       <Header />
       <Navbar mode={"1"} />
-      <List />
       <ul>
         {data.map((volunteer) => (
           <li key={volunteer.volunteers_id}>
