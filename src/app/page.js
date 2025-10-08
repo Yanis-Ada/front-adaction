@@ -83,49 +83,105 @@ function Navbar({ mode }) {
   );
 }
 
+// function VolunteerList() {
+//   return (
+//     <div class="bg-gray-50 flex justify-center py-10">
+//       <div class="bg-white rounded-2xl shadow p-5 w-full max-w-sm">
+
+//         <button class="w-full flex items-center justify-center gap-2 bg-[#039668] hover:bg-green-700 text-white font-medium py-2.5 rounded-lg mb-4 transition">
+//           <UserPlus />
+//           Ajouter un.e bénévole
+//         </button>
+
+
+//         <div class="flex gap-2 mb-4">
+//           <input type="text" placeholder="Rechercher un.e bénévole" class="relative  flex px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+//           <div class="relative  flex border rounded-lg px-3 py-2 text-sm text-gray-600 border-gray-300 hover:bg-gray-100 cursor-pointer">
+//           <MapPin />
+//           <select class="flex items-center gap-1 px-3 py-2">
+//             <option>Toutes les villes</option>
+//             <option>Paris</option>
+//             <option>Nantes</option>
+//             <option>Lyon</option>
+//           </select>
+//           </div>
+//         </div>
+
+
+//         <div class="space-y-3">
+
+//           <div class="flex justify-between items-center border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition">
+//             <div>
+//               <p class="font-medium">Monica Geller</p>
+//               <p class="text-sm text-gray-500">Paris</p>
+//             </div>
+//             <div class="flex gap-2">
+//               <button class="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
+//                 <Pen/>
+//               </button>
+//               <button class="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-200">
+//                 <Trash2 />
+//               </button>
+//             </div>
+//           </div>
+
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 function VolunteerList() {
   return (
-    <div class="bg-gray-50 flex justify-center py-10">
-      <div class="bg-white rounded-2xl shadow p-5 w-full max-w-sm">
+    <div className="bg-gray-50 flex justify-center py-10">
+      <div className="bg-white rounded-2xl shadow p-5 w-full max-w-sm">
 
-        <button class="w-full flex items-center justify-center gap-2 bg-[#039668] hover:bg-green-700 text-white font-medium py-2.5 rounded-lg mb-4 transition">
+        <button className="w-full flex items-center justify-center gap-2 bg-[#039668] hover:bg-green-700 text-white font-medium py-2.5 rounded-lg mb-4 transition">
           <UserPlus />
           Ajouter un.e bénévole
         </button>
 
+        {/* Filtres */}
+        <div className="grid grid-cols-2 gap-2 mb-4 w-full">
+          {/* Input recherche */}
+          <input
+            type="text"
+            placeholder="Rechercher un.e bénévole"
+            className="w-full h-11 px-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
 
-        <div class="flex gap-2 mb-4">
-          <input type="text" placeholder="Rechercher un.e bénévole" class="relative  flex px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
-          <div class="relative  flex border rounded-lg px-3 py-2 text-sm text-gray-600 border-gray-300 hover:bg-gray-100 cursor-pointer">
-          <MapPin />
-          <select class="flex items-center gap-1 px-3 py-2">
-            <option>Toutes les villes</option>
-            <option>Paris</option>
-            <option>Nantes</option>
-            <option>Lyon</option>
-          </select>
+          {/* Select ville (avec icône) */}
+          <div className="w-full">
+            <div className="flex items-center w-full h-11 rounded-lg border border-gray-300 px-3 text-sm text-gray-700 hover:bg-gray-100">
+              <MapPin className="mr-2" />
+              <select className="w-full bg-transparent outline-none appearance-none">
+                <option>Toutes les villes</option>
+                <option>Paris</option>
+                <option>Nantes</option>
+                <option>Lyon</option>
+              </select>
+            </div>
           </div>
         </div>
 
-
-        <div class="space-y-3">
-
-          <div class="flex justify-between items-center border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition">
+        {/* Liste */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-center border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition">
             <div>
-              <p class="font-medium">Monica Geller</p>
-              <p class="text-sm text-gray-500">Paris</p>
+              <p className="font-medium">Monica Geller</p>
+              <p className="text-sm text-gray-500">Paris</p>
             </div>
-            <div class="flex gap-2">
-              <button class="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
-                <Pen/>
+            <div className="flex gap-2">
+              <button className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
+                <Pen />
               </button>
-              <button class="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-200">
+              <button className="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-200">
                 <Trash2 />
               </button>
             </div>
           </div>
-
         </div>
+
       </div>
     </div>
   );
