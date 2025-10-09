@@ -120,12 +120,10 @@ function VolunteerCard() {
           <div className="flex justify-between items-center border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition">
             <div>
               <p className="font-medium">{volunteer.firstname} {volunteer.lastname}</p>
-              <p className="text-sm text-gray-500">{volunteer.city_name}</p>
+              <p className="text-sm text-gray-500">{volunteer.city}</p>
             </div>
             <div className="flex gap-2">
-              <button className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
-                <Pen />
-              </button>
+              <ButtonEdit id={volunteer.volunteers_id} />
               <ButtonDelete onSmash={() => {
                 let answer = confirm(`Veux-tu vraiment supprimer ${volunteer.firstname} ${volunteer.lastname} ?`);
                 if (answer) {
@@ -151,6 +149,151 @@ function ButtonDelete({ onSmash }) {
   )
 }
 
+function ButtonEdit({ id }) {
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    city: "",
+  });
+
+
+  useEffect(() => {
+    fetch("http://localhost:3001/volunteers/" + id)
+      .then((response) => response.json())
+      .then((data) => {
+        setFormData({
+          firstname: data.firstname || "",
+          lastname: data.lastname || "",
+          email: data.email || "",
+          password: "", // volontairement vide, non renvoyé par l’API
+          city: data.city || "",
+        });
+      })
+      .catch((error) => console.error("Erreur lors du chargement :", error));
+  }, [id]);
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    const res = await fetch("http://localhost:3001/volunteers/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+  };
+
+  // const isFormValid = Object.values(formData).every((val) => val.trim() !== "");
+  return (
+    <>
+      <button onClick={() => setOpen(true)} className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
+        <Pen />
+      </button>
+
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          onClick={() => setOpen(false)}
+        >
+
+          <div
+            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative animate-fadeIn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold mb-4">Ajouter un.e bénévoles</h2>
+
+            <form className="space-y-4">
+              <div>
+                <label className="block font-medium">Prénom</label>
+                <input
+                  type="text"
+                  name="firstname"
+                  value={formData.firstname}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium">Nom</label>
+                <input
+                  type="text"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium">Mot de passe</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium">Localisation</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="px-4 py-2 bg-gray-200 rounded-lg"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  // disabled={!isFormValid}
+                  className="px-4 py-2 bg-[#039668] text-white rounded-lg"
+                >
+                  Envoyer
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
 
 function QuestionnaireModal() {
   const [open, setOpen] = useState(false);
@@ -172,14 +315,16 @@ function QuestionnaireModal() {
 
   const handleSubmit = async (e) => {
 
-      const res = await fetch("http://localhost:3001/volunteers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), 
-      });
+    const res = await fetch("http://localhost:3001/volunteers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
   };
+
+  const isFormValid = Object.values(formData).every((val) => val.trim() !== "");
 
   return (
     <>
@@ -268,6 +413,7 @@ function QuestionnaireModal() {
                 <button
                   type="submit"
                   onClick={handleSubmit}
+                  disabled={!isFormValid}
                   className="px-4 py-2 bg-[#039668] text-white rounded-lg"
                 >
                   Envoyer
