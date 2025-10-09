@@ -124,19 +124,33 @@ function VolunteerCard() {
           <div className="flex justify-between items-center border border-gray-300 rounded-lg p-3 hover:bg-gray-50 transition">
             <div>
               <p className="font-medium">{volunteer.firstname} {volunteer.lastname}</p>
-              <p className="text-sm text-gray-500">{volunteer.city_id}</p>
+              <p className="text-sm text-gray-500">{volunteer.city_name}</p>
             </div>
             <div className="flex gap-2">
               <button className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
                 <Pen />
               </button>
-              <button className="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-200">
-                <Trash2 />
-              </button>
+              <ButtonDelete onSmash={() => {
+                let answer = confirm(`Veux-tu vraiment supprimer ${volunteer.firstname} ${volunteer.lastname} ?`);
+                if (answer) {
+                  fetch(`http://localhost:3001/volunteers/${volunteer.volunteers_id}`, {
+                    method: 'DELETE',
+                  });
+                  setPosts(data.filter(v => v.volunteers_id !== volunteer.volunteers_id));
+                }
+              }} />
             </div>
           </div>
         </div>
       ))}
     </div>
+  )
+}
+
+function ButtonDelete({ onSmash }) {
+  return (
+    <button onClick={onSmash} className="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-200">
+      <Trash2 />
+    </button>
   )
 }
