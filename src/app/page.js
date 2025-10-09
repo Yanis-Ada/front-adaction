@@ -154,6 +154,32 @@ function ButtonDelete({ onSmash }) {
 
 function QuestionnaireModal() {
   const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    city: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+
+      const res = await fetch("http://localhost:3001/volunteers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), 
+      });
+  };
 
   return (
     <>
@@ -173,27 +199,62 @@ function QuestionnaireModal() {
             className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-bold mb-4">Questionnaire</h2>
+            <h2 className="text-xl font-bold mb-4">Ajouter un.e bénévoles</h2>
 
             <form className="space-y-4">
               <div>
-                <label className="block font-medium">Ton nom</label>
+                <label className="block font-medium">Prénom</label>
                 <input
                   type="text"
+                  name="firstname"
+                  value={formData.firstname}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
                 />
               </div>
 
               <div>
-                <label className="block font-medium">Ton langage préféré</label>
-                <select
+                <label className="block font-medium">Nom</label>
+                <input
+                  type="text"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleChange}
                   className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
-                >
-                  <option>JavaScript</option>
-                  <option>Python</option>
-                  <option>Rust</option>
-                  <option>C++</option>
-                </select>
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium">Mot de passe</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <div>
+                <label className="block font-medium">Localisation</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-200"
+                />
               </div>
 
               <div className="flex justify-end space-x-2">
@@ -206,7 +267,8 @@ function QuestionnaireModal() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                  onClick={handleSubmit}
+                  className="px-4 py-2 bg-[#039668] text-white rounded-lg"
                 >
                   Envoyer
                 </button>
