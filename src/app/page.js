@@ -185,6 +185,7 @@ function ButtonEdit({ id }) {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const res = await fetch("http://localhost:3001/volunteers/" + id, {
       method: "PUT",
       headers: {
@@ -192,9 +193,13 @@ function ButtonEdit({ id }) {
       },
       body: JSON.stringify(formData),
     });
+    window.location.reload();
   };
 
-  // const isFormValid = Object.values(formData).every((val) => val.trim() !== "");
+  const requiredFields = ["firstname", "lastname", "email", "city"];
+  const isFormValid = requiredFields.every(
+    (key) => formData[key].trim() !== ""
+  );
   return (
     <>
       <button onClick={() => setOpen(true)} className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
@@ -280,7 +285,7 @@ function ButtonEdit({ id }) {
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  // disabled={!isFormValid}
+                  disabled={!isFormValid}
                   className="px-4 py-2 bg-[#039668] text-white rounded-lg"
                 >
                   Envoyer
