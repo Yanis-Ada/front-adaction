@@ -3,6 +3,7 @@ import Header from "../header";
 import { useEffect, useState } from "react";
 import Navbar from "./navbar";
 import Dashboard from "./dashboard";
+import Donation from "./donation";
 
 export default function Home() {
     const [isValidating, setIsValidating] = useState(true);
@@ -36,7 +37,7 @@ export default function Home() {
     <div>
       <Header />
       <Navbar mode="1" />
-      <Dashboard />
+      <Donation />
     </div>
   );
 }
