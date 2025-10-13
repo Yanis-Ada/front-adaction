@@ -1,6 +1,7 @@
 "use client";
 import Header from "../header";
 import { useEffect, useState } from "react";
+import Navbar from "./navbar";
 
 export default function Home() {
     const [isValidating, setIsValidating] = useState(true);
@@ -33,6 +34,7 @@ export default function Home() {
   return (
     <div>
       <Header />
+      <Navbar mode="1" />
     </div>
   );
 }
