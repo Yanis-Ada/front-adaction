@@ -28,8 +28,7 @@ export default function Home() {
       }, []);
       if (isValidating) {
         return (
-          <div className="flex items-center justify-center h-screen text-lg text-gray-700">
-            Vérification du token...
+          <div >
           </div>
         );
       }
@@ -37,7 +36,7 @@ export default function Home() {
     <div>
       <Header />
       <Navbar mode="1" />
-      <Donation />
+      <Dashboard />
     </div>
   );
 }

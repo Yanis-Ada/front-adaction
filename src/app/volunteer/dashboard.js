@@ -16,6 +16,7 @@ import { fr } from 'date-fns/locale';
 
 export default function Dashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [user, setUser] = useState([]);
   const [counts, setCounts] = useState({
     nb_butt: 0,
     nb_plastic: 0,
@@ -24,11 +25,11 @@ export default function Dashboard() {
     nb_electronic: 0,
     nb_other: 0,
   });
-
+  let token = sessionStorage.getItem("token")
   const reload = async (date) => {
     try {
       const res = await fetch(
-        `http://localhost:3001/dashboard/${format(date, "yyyy-MM", { locale: fr })}`,
+        `http://localhost:3001/dashboard/${format(date, "yyyy-MM", { locale: fr })}/${token}`,
         {
           method: "get",
           headers: {
@@ -48,6 +49,13 @@ export default function Dashboard() {
     reload(currentDate);
   }, [currentDate]);
 
+
+  useEffect(() => {
+    fetch("http://localhost:3001/volunteers/token/" + token)
+      .then((response) => response.json())
+      .then((data) => setUser(data))
+  }, []);
+
   const handlePreviousMonth = () => {
     setCurrentDate((prev) => subMonths(prev, 1));
   };
@@ -60,7 +68,7 @@ export default function Dashboard() {
     <div className="bg-gray-50 flex justify-center py-10">
       <div className="bg-white rounded-2xl shadow p-5 w-full max-w-sm">
         <h1 className="text-center text-2xl font-bold mb-4">
-          Bonjour Phoebe !
+          Bonjour {user.firstname} !
         </h1>
 
         <div className="flex items-center justify-center gap-4 text-gray-800 font-semibold text-lg">
