@@ -3,13 +3,28 @@ import ButtonEdit from "./button_edit";
 import ButtonDelete from "./button_delete";
 import { url } from "../backend";
 
-export default function VolunteerCard() {
+export default function VolunteerCard({ city, name }) {
   const [data, setPosts] = useState([]);
   useEffect(() => {
-    fetch(`${url}/volunteers`)
-      .then((response) => response.json())
-      .then((data) => setPosts(data));
-  }, []);
+    if (city !== "Toutes les villes" && name !== "") {
+      fetch(`${url}/volunteers/city/${city}/name/${name}`)
+        .then((response) => response.json())
+        .then((data) => setPosts(data));
+    } else if (city !== "Toutes les villes") {
+      fetch(`${url}/volunteers/city/${city}`)
+        .then((response) => response.json())
+        .then((data) => setPosts(data));
+    } else if (name !== "") {
+      fetch(`${url}/volunteers/name/${name}`)
+        .then((response) => response.json())
+        .then((data) => setPosts(data));
+    } else {
+      fetch(`${url}/volunteers`)
+        .then((response) => response.json())
+        .then((data) => setPosts(data));
+    }
+  }, [city, name]);
+
   return (
     <div>
       {data.map((volunteer) => (

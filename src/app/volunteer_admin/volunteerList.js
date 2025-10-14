@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import { url } from "../backend";
 
 export default function VolunteerList() {
+  const [searchName, setSearchName] = useState("");
+  const [selectedCity, setSelectedCity] = useState("Toutes les villes");
   const [cityList, setcityList] = useState([]);
   useEffect(() => {
     fetch(`${url}/city`)
@@ -22,22 +24,27 @@ export default function VolunteerList() {
           <input
             type="text"
             placeholder="Rechercher un.e bénévole"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
             className="w-full h-11 px-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
           <div className="w-full">
             <div className="flex items-center w-full h-11 rounded-lg border border-gray-300 px-3 text-sm text-gray-700 hover:bg-gray-100">
               <MapPin className="mr-2" />
-              <select className="w-full bg-transparent outline-none appearance-none">
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="w-full bg-transparent outline-none appearance-none">
                 <option>Toutes les villes</option>
                 {cityList.map((city) => (
-                  <option key={city.name}>{city.name}</option>
+                  <option key={city.name} value={city.name}>{city.name}</option>
                 ))}
               </select>
             </div>
           </div>
         </div>
-        <VolunteerCard />
+        <VolunteerCard city={selectedCity} name={searchName} />
         <button
           onClick={() => {
             sessionStorage.removeItem("token");
