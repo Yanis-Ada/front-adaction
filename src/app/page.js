@@ -1,6 +1,7 @@
 "use client";
 import Header from "./header";
 import { useState } from "react";
+import { url } from "./backend";
 
 export default function Home() {
   return (
@@ -27,7 +28,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3001/login", {
+    const res = await fetch(`${url}/login`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +38,7 @@ function Login() {
     let response = await res.json()
     if (response["message"] == "Login successful") {
       sessionStorage.setItem("token", response["token"])
-      const infoToken = await fetch("http://localhost:3001/token", {
+      const infoToken = await fetch(`${url}/token`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +49,7 @@ function Login() {
       if (info["message"] == "Token is valid and user is admin"){
         window.location.href = "/volunteer_admin"
       }else if (info["message"] == "Token is valid"){
-        window.location.href = "/volunteer"
+        window.location.href = "/dashboard"
       }else{
         alert("Problème avec le token")
       }

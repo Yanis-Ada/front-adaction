@@ -1,10 +1,9 @@
 "use client";
 import Header from "../header";
 import { useEffect, useState } from "react";
-import Navbar from "./navbar";
-import Dashboard from "./dashboard";
+import Navbar from "../navbar";
 import Donation from "./donation";
-import Collect from "./collect";
+
 
 export default function Home() {
     const [isValidating, setIsValidating] = useState(true);
@@ -38,8 +37,6 @@ export default function Home() {
       <Header />
       <Navbar mode="3" />
       <Donation />
-      <Dashboard />
-      <Collect />
     </div>
   );
 }

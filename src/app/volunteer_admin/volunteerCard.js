@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import ButtonEdit from "./button_edit";
 import ButtonDelete from "./button_delete";
+import { url } from "../backend";
 
 export default function VolunteerCard() {
   const [data, setPosts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3001/volunteers")
+    fetch(`${url}/volunteers`)
       .then((response) => response.json())
       .then((data) => setPosts(data));
   }, []);
@@ -23,7 +24,7 @@ export default function VolunteerCard() {
               <ButtonDelete onSmash={() => {
                 let answer = confirm(`Veux-tu vraiment supprimer ${volunteer.firstname} ${volunteer.lastname} ?`);
                 if (answer) {
-                  fetch(`http://localhost:3001/volunteers/${volunteer.volunteers_id}`, {
+                  fetch(`${url}/volunteers/${volunteer.volunteers_id}`, {
                     method: 'DELETE',
                   });
                   setPosts(data.filter(v => v.volunteers_id !== volunteer.volunteers_id));
