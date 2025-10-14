@@ -1,5 +1,6 @@
 import {Pen } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { url } from "../backend";
 
 export default function ButtonEdit({ id }) {
   const [open, setOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function ButtonEdit({ id }) {
 
 
   useEffect(() => {
-    fetch("http://localhost:3001/volunteers/" + id)
+    fetch(`${url}/volunteers/` + id)
       .then((response) => response.json())
       .then((data) => {
         setFormData({
@@ -38,7 +39,7 @@ export default function ButtonEdit({ id }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3001/volunteers/" + id, {
+    const res = await fetch(`${url}/volunteers/` + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

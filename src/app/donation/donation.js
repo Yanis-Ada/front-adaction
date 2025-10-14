@@ -1,17 +1,18 @@
 import { Gift, Heart } from "lucide-react";
 import React, { useState, useEffect } from 'react';
+import { url } from "../backend";
 
 export default function Donation() {
     const [data, setData] = useState([]);
     const [points, setpoints] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:3001/association")
+        fetch(`${url}/association`)
         .then((response) => response.json())
         .then((data) => setData(data))
     }, []);
     let token = sessionStorage.getItem("token")
     useEffect(() => {
-        fetch("http://localhost:3001/volunteers/point/"+token)
+        fetch(`${url}/volunteers/point/${token}`)
         .then((response) => response.json())
         .then((data) => setpoints(data))
     }, []);
@@ -43,7 +44,7 @@ export default function Donation() {
             <button 
             disabled={points.current < association.donation_value}
             onClick={async() => {
-                const response = await fetch("http://localhost:3001/donation", {
+                const response = await fetch(`${url}/donation`, {
                     method: "post",
                     headers: {  "Content-Type": "application/json"  },
                     body: JSON.stringify({ token: token, association_id: association.association_id })

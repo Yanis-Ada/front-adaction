@@ -1,5 +1,6 @@
 import {UserPlus,} from "lucide-react";
 import React, { useState } from "react";
+import { url } from "../backend";
 
 export default function ButtonAdd() {
   const [open, setOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function ButtonAdd() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3001/volunteers", {
+    const res = await fetch(`${url}/volunteers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

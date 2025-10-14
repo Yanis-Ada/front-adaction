@@ -4,6 +4,7 @@ import Header from "../header";
 import Navbar from "./navbar";
 import VolunteerList from "./volunteerList";
 import { useEffect , useState} from "react";
+import { url } from "../backend";
 
 
 export default function Home() {
@@ -11,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     async function token() {
     let token = sessionStorage.getItem("token")
-    const infoToken = await fetch("http://localhost:3001/token", {
+    const infoToken = await fetch(`${url}/token`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",

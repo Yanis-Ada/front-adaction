@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { format, addMonths, subMonths } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { MapPin, CircleAlert } from "lucide-react";
+import { url } from "../backend";
 
 
 export default function Collect() {
@@ -37,7 +38,7 @@ export default function Collect() {
 
         alert("Collecte enregistrée !");
         const token = sessionStorage.getItem('token');
-        const res = await fetch("http://localhost:3001/collect", {
+        const res = await fetch(`${url}/collect`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +53,7 @@ export default function Collect() {
     };
 
     useEffect(() => {
-        fetch("http://localhost:3001/city")
+        fetch(`${url}/city`)
             .then((response) => response.json())
             .then((data) => setcityList(data))
     }, []);

@@ -3,13 +3,14 @@ import Header from "../header";
 import { useEffect, useState } from "react";
 import Navbar from "../navbar";
 import Collect from "./collect";
+import { url } from "../backend";
 
 export default function Home() {
     const [isValidating, setIsValidating] = useState(true);
       useEffect(() => {
         async function token() {
         let token = sessionStorage.getItem("token")
-        const infoToken = await fetch("http://localhost:3001/token", {
+        const infoToken = await fetch(`${url}/token`, {
           method: "post",
           headers: {
             "Content-Type": "application/json",
