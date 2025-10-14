@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./navbar";
 import Dashboard from "./dashboard";
 import Donation from "./donation";
+import Collect from "./collect";
 
 export default function Home() {
     const [isValidating, setIsValidating] = useState(true);
@@ -35,8 +36,10 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <Navbar mode="1" />
+      <Navbar mode="3" />
+      <Donation />
       <Dashboard />
+      <Collect />
     </div>
   );
 }

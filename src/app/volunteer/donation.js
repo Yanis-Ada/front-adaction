@@ -40,7 +40,9 @@ export default function Donation() {
             <span className="text-[#039668] font-medium text-sm">
               {association.donation_value} <span className="text-[#039668]">points</span>
             </span>
-            <button onClick={async() => {
+            <button 
+            disabled={points.current < association.donation_value}
+            onClick={async() => {
                 const response = await fetch("http://localhost:3001/donation", {
                     method: "post",
                     headers: {  "Content-Type": "application/json"  },
