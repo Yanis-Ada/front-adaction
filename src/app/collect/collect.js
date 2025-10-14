@@ -60,99 +60,97 @@ export default function Collect() {
 
     return (
         <div className="bg-gray-50 flex justify-center py-10">
-            <div className="bg-white rounded-2xl shadow p-5 w-full max-w-sm">
-                <form
-                    onSubmit={handleSubmit}
-                    className="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 space-y-4"
-                >
-                    <h2 className="flex items-center  justify-center text-lg font-semibold text-gray-800">
-                        <CircleAlert className='mr-2' /> Enregistrer une collecte
-                    </h2>
+            <form
+                onSubmit={handleSubmit}
+                className="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 space-y-4"
+            >
+                <h2 className="flex items-center  justify-center text-lg font-semibold text-gray-800">
+                    <CircleAlert className='mr-2' /> Enregistrer une collecte
+                </h2>
 
-                    <div>
-                        <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
-                            Date *
-                        </label>
-                        <input
-                            type="date"
-                            id="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                            className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        />
-                    </div>
-                    <div>
-                        <label className=" text-sm font-medium text-gray-700 mb-1 flex items-center">
-                            <MapPin className="w-4 h-4 mr-1 text-gray-500" />
-                            Localisation
-                        </label>
-                        <select
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            <option value="">Sélectionnez une ville</option>
-                            {cityList.map((city) => (
-                                <option key={city.name} value={city.name}>{city.name}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div>
-                        <p className="text-sm font-medium text-gray-700 mb-2">Type de déchet *</p>
-                        <div className="space-y-2">
-                            {Object.entries(waste).map(([type, valeur]) => (
-                                <div
-                                    key={type}
-                                    className="flex items-center justify-between border border-gray-200 rounded-xl p-2"
-                                >
-                                    <span className="flex items-center gap-2 capitalize">
-                                        {type === "nb_butt" && "🚬 Mégots de cigarette"}
-                                        {type === "nb_plastic" && "🧴 Plastique"}
-                                        {type === "nb_glass" && "🍾 Verre"}
-                                        {type === "nb_metal" && "🪙 Métal"}
-                                        {type === "nb_electronic" && "💻 Électronique"}
-                                        {type === "nb_other" && "❓ Autre"}
-                                    </span>
-
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            type="button"
-                                            onClick={() => handleDecrement(type)}
-                                            className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
-                                        >
-                                            −
-                                        </button>
-
-                                        <input
-                                            type="number"
-                                            min={0}
-                                            value={valeur}
-                                            onChange={(e) => handleChange(type, e.target.value)}
-                                            className="w-16 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        />
-
-                                        <button
-                                            type="button"
-                                            onClick={() => handleIncrement(type)}
-                                            className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
-                                        >
-                                            +
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={!city || Object.values(waste).every((val) => val === 0)}
-                        className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 transition"
+                <div>
+                    <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
+                        Date *
+                    </label>
+                    <input
+                        type="date"
+                        id="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                </div>
+                <div>
+                    <label className=" text-sm font-medium text-gray-700 mb-1 flex items-center">
+                        <MapPin className="w-4 h-4 mr-1 text-gray-500" />
+                        Localisation
+                    </label>
+                    <select
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     >
-                        💾 Enregistrer
-                    </button>
-                </form>
-            </div>
+                        <option value="">Sélectionnez une ville</option>
+                        {cityList.map((city) => (
+                            <option key={city.name} value={city.name}>{city.name}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <p className="text-sm font-medium text-gray-700 mb-2">Type de déchet *</p>
+                    <div className="space-y-2">
+                        {Object.entries(waste).map(([type, valeur]) => (
+                            <div
+                                key={type}
+                                className="flex items-center justify-between border border-gray-200 rounded-xl p-2"
+                            >
+                                <span className="flex items-center gap-2 capitalize">
+                                    {type === "nb_butt" && "🚬 Mégots de cigarette"}
+                                    {type === "nb_plastic" && "🧴 Plastique"}
+                                    {type === "nb_glass" && "🍾 Verre"}
+                                    {type === "nb_metal" && "🪙 Métal"}
+                                    {type === "nb_electronic" && "💻 Électronique"}
+                                    {type === "nb_other" && "❓ Autre"}
+                                </span>
+
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDecrement(type)}
+                                        className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+                                    >
+                                        −
+                                    </button>
+
+                                    <input
+                                        type="number"
+                                        min={0}
+                                        value={valeur}
+                                        onChange={(e) => handleChange(type, e.target.value)}
+                                        className="w-16 border border-gray-300 rounded-lg text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() => handleIncrement(type)}
+                                        className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    disabled={!city || Object.values(waste).every((val) => val === 0)}
+                    className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 transition"
+                >
+                    💾 Enregistrer
+                </button>
+            </form>
         </div>
 
     );

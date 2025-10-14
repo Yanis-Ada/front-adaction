@@ -3,6 +3,7 @@ import Header from "../header";
 import { useEffect, useState } from "react";
 import Navbar from "../navbar";
 import { url } from "../backend";
+import UserForm from "./update";
 
 
 export default function Home() {
@@ -38,6 +39,7 @@ export default function Home() {
             <Navbar mode="4" />
             <div className="bg-gray-50 flex justify-center py-10">
                 <div className="bg-white rounded-2xl shadow p-5 w-full max-w-sm">
+                    <UserForm />
                     <button
                         onClick={() => {
                             sessionStorage.removeItem("token");

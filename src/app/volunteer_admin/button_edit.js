@@ -75,7 +75,7 @@ export default function ButtonEdit({ id }) {
             className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-bold mb-4">Ajouter un.e bénévoles</h2>
+            <h2 className="text-xl font-bold mb-4">Éditer un.e bénévoles</h2>
 
             <form className="space-y-4">
               <div>
