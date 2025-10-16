@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { url } from "../backend";
 
-export default function useRequireAuth() {
+export default function useRequireAuth(isAdmin) {
     const [isValidating, setIsValidating] = useState(true);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function useRequireAuth() {
                 body: JSON.stringify({ token: token }),
             });
             let info = await infoToken.json();
-            if (info["message"] !== 'Token is valid') {
+            if (isAdmin ? info["message"] !== "Token is valid and user is admin" : info["message"] !== 'Token is valid') {
                 window.location.href = "/";
             } else {
                 setIsValidating(false);
