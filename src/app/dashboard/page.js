@@ -1,37 +1,18 @@
 "use client";
 import Header from "../header";
-import { useEffect, useState } from "react";
 import Navbar from "../navbar";
 import Dashboard from "./dashboard";
-import { url } from "../backend";
+import useRequireAuth from "../hook/useRequireAuth";
 
 export default function Home() {
-    const [isValidating, setIsValidating] = useState(true);
-      useEffect(() => {
-        async function token() {
-        let token = sessionStorage.getItem("token")
-        const infoToken = await fetch(`${url}/token`, {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token: token }),
-        });
-        let info = await infoToken.json()
-        if (info["message"] !== 'Token is valid') {
-          window.location.href = "/"
-        }else{
-          setIsValidating(false);
-        }
-      }
-      token()
-      }, []);
+    const isValidating = useRequireAuth();
       if (isValidating) {
-        return (
-          <div >
-          </div>
-        );
-      }
+  return (
+    <div>
+      <p>Chargement de la page...</p>
+    </div>
+  );
+}
   return (
     <div>
       <Header />
