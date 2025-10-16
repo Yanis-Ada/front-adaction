@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "../header";
-import Navbar from "./navbar";
+import Navbar from "../navbar";
 import VolunteerList from "./volunteerList";
 import { useEffect , useState} from "react";
 import { url } from "../backend";
@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <Navbar mode={"1"} />
+      <Navbar mode={"1"} isadmin={true} />
       <VolunteerList />
     </div>
   );

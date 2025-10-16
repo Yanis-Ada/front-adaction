@@ -1,22 +1,27 @@
-import { Sprout, Heart, User, PackagePlus } from "lucide-react";
+import { Sprout, Heart, User, PackagePlus,Trophy } from "lucide-react";
 
-const navItems = [
+const volunteer = [
   { id: "1", label: "Dashboard", Icon: Sprout , href: "/dashboard"},
   { id: "2", label: "Collectes", Icon: PackagePlus, href: "/collect" },
   { id: "3", label: "Dons", Icon: Heart, href: "/donation" },
   { id: "4", label: "Profil", Icon: User, href: "/user" },
 ];
 
-export default function Navbar({ mode }) {
+const volunteer_admin = [
+  { id: "1", label: "Gestion des bénévoles", Icon: Sprout , href: "/volunteer_admin"},
+  { id: "2", label: "Leaderboard", Icon: Trophy, href: "/leaderboard" },
+];
+
+export default function Navbar({ mode, isadmin }) {
   return (
     <nav className="flex space-x-4 bg-white p-4 shadow">
       <div className="flex space-x-4 items-center justify-center w-full">
-        {navItems.map(({ id, label, Icon,href }) => {
+        {(isadmin ? volunteer_admin : volunteer).map(({ id, label, Icon,href }) => {
           const isActive = mode === id;
           const activeColor = "#039668";
           const inactiveColor = "#6C7280";
           const activeBg = isActive ? "bg-[#ECFDF5]" : "";
-          const color = isActive ? activeColor : inactiveColor;
+          const color = isActive  ? activeColor : inactiveColor;
 
             return (
             <div

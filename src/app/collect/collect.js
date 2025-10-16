@@ -98,7 +98,7 @@ export default function Collect() {
                 </div>
 
                 <div>
-                    <p className="text-sm font-medium text-gray-700 mb-2">Type de déchet *</p>
+                    <p className="text-sm font-medium text-gray-700 mb-2">Type de déchet</p>
                     <div className="space-y-2">
                         {Object.entries(waste).map(([type, valeur]) => (
                             <div
