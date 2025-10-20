@@ -22,18 +22,23 @@ export default function ButtonAdd() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let token = sessionStorage.getItem("token");
     const res = await fetch(`${url}/volunteers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
       },
       body: JSON.stringify(formData),
     });
+    if (res.status !== 201){
+      window.location.href = "/";
+    }
     let response = await res.json()
     let error = {error: 'Email already exists'}
     if (response['error'] == error['error']) {
       alert("Email déjà utilisé");
-    } else {
+    }else {
       window.location.reload();
     }
   };

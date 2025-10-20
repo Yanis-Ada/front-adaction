@@ -29,22 +29,22 @@ export default function Dashboard() {
   });
   let token = sessionStorage.getItem("token")
   const reload = async (date) => {
-    try {
-      const res = await fetch(
-        `${url}/dashboard/${format(date, "yyyy-MM", { locale: fr })}/${token}`,
-        {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const response = await res.json();
-      const data = response[0] || response;
-      setCounts(data);
-    } catch (error) {
-      console.error("Erreur de chargement :", error);
+    const res = await fetch(
+      `${url}/dashboard/${format(date, "yyyy-MM", { locale: fr })}`,
+      {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": `Bearer ${token}`
+        },
+      }
+    );
+    if (res.status !== 200){
+      window.location.href = "/";
     }
+    const response = await res.json();
+    const data = response[0] || response;
+    setCounts(data);
   };
 
   useEffect(() => {
@@ -53,9 +53,20 @@ export default function Dashboard() {
 
 
   useEffect(() => {
-    fetch(`${url}/volunteers/token/${token}`)
-      .then((response) => response.json())
-      .then((data) => setUser(data))
+    fetch(`${url}/volunteers/token`, {
+      headers: {
+        "authorization": `Bearer ${token}`
+      }
+    }
+    )
+      .then(async (response) => {
+        if (response.status !== 200) {
+          window.location.href = "/";
+        } else {
+          const data = await response.json();
+          setUser(data);
+        }
+      });
   }, []);
 
   const handlePreviousMonth = () => {

@@ -5,23 +5,64 @@ import { url } from "../backend";
 
 export default function VolunteerCard({ city, name }) {
   const [data, setPosts] = useState([]);
+  let token = sessionStorage.getItem("token");
   useEffect(() => {
     if (city !== "Toutes les villes" && name !== "") {
-      fetch(`${url}/volunteers/city/${city}/name/${name}`)
-        .then((response) => response.json())
-        .then((data) => setPosts(data));
+      fetch(`${url}/volunteers/city/${city}/name/${name}`, {
+        headers: {
+          "authorization": `Bearer ${token}`
+        }
+      })
+        .then(async (response) => {
+          if (response.status !== 200) {
+            window.location.href = "/";
+          } else {
+            const data = await response.json();
+            setPosts(data);
+          }
+        });
     } else if (city !== "Toutes les villes") {
-      fetch(`${url}/volunteers/city/${city}`)
-        .then((response) => response.json())
-        .then((data) => setPosts(data));
+      fetch(`${url}/volunteers/city/${city}`, {
+        headers: {
+          "authorization": `Bearer ${token}`
+        }
+      })
+        .then(async (response) => {
+          if (response.status !== 200) {
+            window.location.href = "/";
+          } else {
+            const data = await response.json();
+            setPosts(data);
+          }
+        });
     } else if (name !== "") {
-      fetch(`${url}/volunteers/name/${name}`)
-        .then((response) => response.json())
-        .then((data) => setPosts(data));
+      fetch(`${url}/volunteers/name/${name}`, {
+        headers: {
+          "authorization": `Bearer ${token}`
+        }
+      })
+        .then(async (response) => {
+          if (response.status !== 200) {
+            window.location.href = "/";
+          } else {
+            const data = await response.json();
+            setPosts(data);
+          }
+        });
     } else {
-      fetch(`${url}/volunteers`)
-        .then((response) => response.json())
-        .then((data) => setPosts(data));
+      fetch(`${url}/volunteers`, {
+        headers: {
+          "authorization": `Bearer ${token}`
+        }
+      })
+        .then(async (response) => {
+          if (response.status !== 200) {
+            window.location.href = "/";
+          } else {
+            const data = await response.json();
+            setPosts(data);
+          }
+        });
     }
   }, [city, name]);
 
@@ -41,8 +82,16 @@ export default function VolunteerCard({ city, name }) {
                 if (answer) {
                   fetch(`${url}/volunteers/${volunteer.volunteers_id}`, {
                     method: 'DELETE',
+                    headers: {
+                      "authorization": `Bearer ${token}`
+                    }
+                  }).then(async (response) => {
+                    if (response.status !== 200) {
+                      window.location.href = "/";
+                    } else {
+                      setPosts(data.filter(v => v.volunteers_id !== volunteer.volunteers_id));
+                    }
                   });
-                  setPosts(data.filter(v => v.volunteers_id !== volunteer.volunteers_id));
                 }
               }} />
             </div>

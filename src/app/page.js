@@ -39,11 +39,10 @@ function Login() {
     if (response["message"] == "Login successful") {
       sessionStorage.setItem("token", response["token"])
       const infoToken = await fetch(`${url}/token`, {
-        method: "post",
         headers: {
           "Content-Type": "application/json",
+          "authorization": `Bearer ${response["token"]}`
         },
-        body: JSON.stringify({ token: response["token"] }),
       });
       let info = await infoToken.json()
       if (info["message"] == "Token is valid and user is admin"){

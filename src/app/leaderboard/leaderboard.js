@@ -6,10 +6,21 @@ import { Trophy } from "lucide-react";
 
 export default function Leaderboard() {
     const [data, setPosts] = useState([]);
+    let token = sessionStorage.getItem("token");
     useEffect(() => {
-        fetch(`${url}/leaderboard`)
-            .then((response) => response.json())
-            .then((data) => setPosts(data));
+        fetch(`${url}/leaderboard`, {
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        })
+            .then(async (response) => {
+                if (response.status !== 200) {
+                    window.location.href = "/";
+                } else {
+                    const data = await response.json();
+                    setPosts(data);
+                }
+            });
     }, []);
     return (
         <div className="bg-gray-50 flex justify-center py-10">

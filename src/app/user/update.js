@@ -10,23 +10,30 @@ export default function UserForm() {
         password: "",
         city: "",
     });
+    const token = sessionStorage.getItem("token")
 
 
-    useEffect(() => {
-        const token = sessionStorage.getItem("token")
-        fetch(`${url}/volunteers/token/${token}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setFormData({
-                    firstname: data.firstname || "",
-                    lastname: data.lastname || "",
-                    email: data.email || "",
-                    password: "",
-                    city: data.city || "",
-                });
-            })
-            .catch((error) => console.error("Erreur lors du chargement :", error));
-    }, []);
+  useEffect(() => {
+    fetch(`${url}/volunteers/token/`, {
+      headers: {
+        "authorization": `Bearer ${token}`
+      }
+    })
+      .then(async (response) => {
+        if (response.status !== 200) {
+          window.location.href = "/";
+        } else {
+          const data = await response.json();
+          setFormData({
+            firstname: data.firstname || "",
+            lastname: data.lastname || "",
+            email: data.email || "",
+            password: "",
+            city: data.city || "",
+          });
+        }
+      });
+  }, []);
 
 
     const handleChange = (e) => {
@@ -39,14 +46,17 @@ export default function UserForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = sessionStorage.getItem("token")
-        const res = await fetch(`${url}/volunteers/token/${token}`, {
+        const res = await fetch(`${url}/volunteers/token`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
             },
             body: JSON.stringify(formData),
         });
+        if (res.status !== 200){
+            window.location.href = "/";
+        }
         let response = await res.json()
         let error = { error: 'Email already exists' }
         if (response['error'] == error['error']) {
