@@ -1,4 +1,4 @@
-import {Pen } from "lucide-react";
+import { Pen } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { url } from "../backend";
 
@@ -11,21 +11,28 @@ export default function ButtonEdit({ id }) {
     password: "",
     city: "",
   });
-
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    fetch(`${url}/volunteers/` + id)
-      .then((response) => response.json())
-      .then((data) => {
-        setFormData({
-          firstname: data.firstname || "",
-          lastname: data.lastname || "",
-          email: data.email || "",
-          password: "", 
-          city: data.city || "",
-        });
-      })
-      .catch((error) => console.error("Erreur lors du chargement :", error));
+    fetch(`${url}/volunteers/` + id, {
+      headers: {
+        "authorization": `Bearer ${token}`
+      }
+    })
+      .then(async (response) => {
+        if (response.status !== 200) {
+          window.location.href = "/";
+        } else {
+          const data = await response.json();
+          setFormData({
+            firstname: data.firstname || "",
+            lastname: data.lastname || "",
+            email: data.email || "",
+            password: "",
+            city: data.city || "",
+          });
+        }
+      });
   }, [id]);
 
 
@@ -43,11 +50,15 @@ export default function ButtonEdit({ id }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "authorization": `Bearer ${token}`
       },
       body: JSON.stringify(formData),
     });
+    if (res.status !== 201) {
+      window.location.href = "/";
+    }
     let response = await res.json()
-    let error = {error: 'Email already exists'}
+    let error = { error: 'Email already exists' }
     if (response['error'] == error['error']) {
       alert("Email déjà utilisé");
     } else {

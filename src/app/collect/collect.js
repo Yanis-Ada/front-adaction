@@ -52,10 +52,21 @@ export default function Collect() {
 
     };
 
+    let token = sessionStorage.getItem("token");
     useEffect(() => {
-        fetch(`${url}/city`)
-            .then((response) => response.json())
-            .then((data) => setcityList(data))
+        fetch(`${url}/city`, {
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        })
+            .then(async (response) => {
+                if (response.status !== 200) {
+                    window.location.href = "/";
+                } else {
+                    const data = await response.json();
+                    setcityList(data);
+                }
+            });
     }, []);
 
     return (

@@ -8,10 +8,21 @@ export default function VolunteerList() {
   const [searchName, setSearchName] = useState("");
   const [selectedCity, setSelectedCity] = useState("Toutes les villes");
   const [cityList, setcityList] = useState([]);
+  let token = sessionStorage.getItem("token");
   useEffect(() => {
-    fetch(`${url}/city`)
-      .then((response) => response.json())
-      .then((data) => setcityList(data))
+    fetch(`${url}/city`, {
+      headers: {
+        "authorization": `Bearer ${token}`
+      }
+    })
+      .then(async (response) => {
+        if (response.status !== 200) {
+          window.location.href = "/";
+        } else {
+          const data = await response.json();
+          setcityList(data);
+        }
+      });
   }, []);
   return (
     <div className="bg-gray-50 flex justify-center py-10">
