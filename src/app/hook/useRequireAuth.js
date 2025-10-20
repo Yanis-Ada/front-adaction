@@ -9,11 +9,10 @@ export default function useRequireAuth(isAdmin) {
         async function verifyToken() {
             let token = sessionStorage.getItem("token");
             const infoToken = await fetch(`${url}/token`, {
-                method: "post",
                 headers: {
                     "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ token: token }),
             });
             let info = await infoToken.json();
             if (isAdmin ? info["message"] !== "Token is valid and user is admin" : info["message"] !== 'Token is valid') {

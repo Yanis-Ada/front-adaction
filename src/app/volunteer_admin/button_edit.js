@@ -14,7 +14,7 @@ export default function ButtonEdit({ id }) {
   const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    fetch(`${url}/volunteers/` + id, {
+    fetch(`${url}/volunteers/id/` + id, {
       headers: {
         "authorization": `Bearer ${token}`
       }
@@ -46,7 +46,7 @@ export default function ButtonEdit({ id }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/volunteers/` + id, {
+    const res = await fetch(`${url}/volunteers/id` + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

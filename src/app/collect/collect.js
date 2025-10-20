@@ -35,20 +35,23 @@ export default function Collect() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        alert("Collecte enregistrée !");
         const token = sessionStorage.getItem('token');
         const res = await fetch(`${url}/collect`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({ token, date, city, waste }),
+            body: JSON.stringify({ date, city, waste }),
         });
-        console.log({ token, date, city, waste })
-        let response = await res.json()
-        console.log(response)
-        window.location.reload();
+        if (res.status !== 200) {
+            window.location.href = "/";
+        } else {
+            alert("Collecte enregistrée !");
+            window.location.reload();
+        }
+
+
 
     };
 
