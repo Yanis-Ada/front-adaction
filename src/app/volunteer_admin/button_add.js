@@ -1,4 +1,4 @@
-import {UserPlus,} from "lucide-react";
+import { UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { url } from "../backend";
 
@@ -27,28 +27,29 @@ export default function ButtonAdd() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "authorization": `Bearer ${token}`
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(formData),
     });
-    if (res.status !== 201){
+    if (res.status !== 201) {
       window.location.href = "/";
     }
-    let response = await res.json()
-    let error = {error: 'Email already exists'}
-    if (response['error'] == error['error']) {
+    let response = await res.json();
+    let error = { error: "Email already exists" };
+    if (response["error"] == error["error"]) {
       alert("Email déjà utilisé");
-    }else {
+    } else {
       window.location.reload();
     }
   };
 
-  const isFormValid = Object.values(formData).every((val) => val.trim() !== "");
 
   return (
     <>
-      <button onClick={() => setOpen(true)}
-        className="w-full flex items-center justify-center gap-2 bg-[#039668] hover:bg-green-700 text-white font-medium py-2.5 rounded-lg mb-4 transition">
+      <button
+        onClick={() => setOpen(true)}
+        className="w-full flex items-center justify-center gap-2 bg-[#039668] hover:bg-green-700 text-white font-medium py-2.5 rounded-lg mb-4 transition"
+      >
         <UserPlus />
         Ajouter un.e bénévole
       </button>
@@ -58,17 +59,17 @@ export default function ButtonAdd() {
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
           onClick={() => setOpen(false)}
         >
-
           <div
             className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold mb-4">Ajouter un.e bénévoles</h2>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="block font-medium">Prénom</label>
                 <input
+                  required
                   type="text"
                   name="firstname"
                   value={formData.firstname}
@@ -80,6 +81,7 @@ export default function ButtonAdd() {
               <div>
                 <label className="block font-medium">Nom</label>
                 <input
+                  required
                   type="text"
                   name="lastname"
                   value={formData.lastname}
@@ -91,6 +93,7 @@ export default function ButtonAdd() {
               <div>
                 <label className="block font-medium">Email</label>
                 <input
+                  required
                   type="email"
                   name="email"
                   value={formData.email}
@@ -102,6 +105,7 @@ export default function ButtonAdd() {
               <div>
                 <label className="block font-medium">Mot de passe</label>
                 <input
+                  required
                   type="password"
                   name="password"
                   value={formData.password}
@@ -113,6 +117,7 @@ export default function ButtonAdd() {
               <div>
                 <label className="block font-medium">Localisation</label>
                 <input
+                  required
                   type="text"
                   name="city"
                   value={formData.city}
@@ -124,15 +129,22 @@ export default function ButtonAdd() {
               <div className="flex justify-end space-x-2">
                 <button
                   type="button"
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    setOpen(false);
+                    setFormData({
+                      firstname: "",
+                      lastname: "",
+                      email: "",
+                      password: "",
+                      city: "",
+                    });
+                  }}
                   className="px-4 py-2 bg-gray-200 rounded-lg"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  onClick={handleSubmit}
-                  disabled={!isFormValid}
                   className="px-4 py-2 bg-[#039668] text-white rounded-lg"
                 >
                   Envoyer

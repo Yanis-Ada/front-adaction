@@ -11,30 +11,32 @@ export default function ButtonEdit({ id }) {
     password: "",
     city: "",
   });
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
-  useEffect(() => {
+  const reloadVolunteer = () => {
     fetch(`${url}/volunteers/id/` + id, {
       headers: {
-        "authorization": `Bearer ${token}`
+        authorization: `Bearer ${token}`,
+      },
+    }).then(async (response) => {
+      if (response.status !== 200) {
+        window.location.href = "/";
+      } else {
+        const data = await response.json();
+        setFormData({
+          firstname: data.firstname || "",
+          lastname: data.lastname || "",
+          email: data.email || "",
+          password: "",
+          city: data.city || "",
+        });
       }
-    })
-      .then(async (response) => {
-        if (response.status !== 200) {
-          window.location.href = "/";
-        } else {
-          const data = await response.json();
-          setFormData({
-            firstname: data.firstname || "",
-            lastname: data.lastname || "",
-            email: data.email || "",
-            password: "",
-            city: data.city || "",
-          });
-        }
-      });
-  }, [id]);
+    });
+  };
 
+  useEffect(() => {
+    reloadVolunteer();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,32 +52,31 @@ export default function ButtonEdit({ id }) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "authorization": `Bearer ${token}`
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(formData),
     });
     if (res.status !== 200) {
       window.location.href = "/";
     }
-    let response = await res.json()
-    console.log(res.status)
-    console.log(response)
-    console.log(response['error'])
-    let error = { error: 'Email already exists' }
-    if (response['error'] == error['error']) {
+    let response = await res.json();
+    console.log(res.status);
+    console.log(response);
+    console.log(response["error"]);
+    let error = { error: "Email already exists" };
+    if (response["error"] == error["error"]) {
       alert("Email déjà utilisé");
     } else {
       window.location.reload();
     }
   };
 
-  const requiredFields = ["firstname", "lastname", "email", "city"];
-  const isFormValid = requiredFields.every(
-    (key) => formData[key].trim() !== ""
-  );
   return (
     <>
-      <button onClick={() => setOpen(true)} className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200">
+      <button
+        onClick={() => setOpen(true)}
+        className="bg-blue-100 text-blue-600 p-2 rounded-lg hover:bg-blue-200"
+      >
         <Pen />
       </button>
 
@@ -84,17 +85,17 @@ export default function ButtonEdit({ id }) {
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
           onClick={() => setOpen(false)}
         >
-
           <div
             className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative animate-fadeIn"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold mb-4">Éditer un.e bénévoles</h2>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="block font-medium">Prénom</label>
                 <input
+                  required
                   type="text"
                   name="firstname"
                   value={formData.firstname}
@@ -106,6 +107,7 @@ export default function ButtonEdit({ id }) {
               <div>
                 <label className="block font-medium">Nom</label>
                 <input
+                  required
                   type="text"
                   name="lastname"
                   value={formData.lastname}
@@ -117,6 +119,7 @@ export default function ButtonEdit({ id }) {
               <div>
                 <label className="block font-medium">Email</label>
                 <input
+                  required
                   type="email"
                   name="email"
                   value={formData.email}
@@ -139,6 +142,7 @@ export default function ButtonEdit({ id }) {
               <div>
                 <label className="block font-medium">Localisation</label>
                 <input
+                  required
                   type="text"
                   name="city"
                   value={formData.city}
@@ -150,15 +154,16 @@ export default function ButtonEdit({ id }) {
               <div className="flex justify-end space-x-2">
                 <button
                   type="button"
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    reloadVolunteer();
+                    setOpen(false);
+                  }}
                   className="px-4 py-2 bg-gray-200 rounded-lg"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  onClick={handleSubmit}
-                  disabled={!isFormValid}
                   className="px-4 py-2 bg-[#039668] text-white rounded-lg"
                 >
                   Envoyer
@@ -169,5 +174,5 @@ export default function ButtonEdit({ id }) {
         </div>
       )}
     </>
-  )
+  );
 }

@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { format, addMonths, subMonths } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import { MapPin, CircleAlert } from "lucide-react";
 import { url } from "../backend";
 
