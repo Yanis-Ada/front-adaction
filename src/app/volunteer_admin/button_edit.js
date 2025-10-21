@@ -46,7 +46,7 @@ export default function ButtonEdit({ id }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/volunteers/id` + id, {
+    const res = await fetch(`${url}/volunteers/id/` + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -54,10 +54,13 @@ export default function ButtonEdit({ id }) {
       },
       body: JSON.stringify(formData),
     });
-    if (res.status !== 201) {
+    if (res.status !== 200) {
       window.location.href = "/";
     }
     let response = await res.json()
+    console.log(res.status)
+    console.log(response)
+    console.log(response['error'])
     let error = { error: 'Email already exists' }
     if (response['error'] == error['error']) {
       alert("Email déjà utilisé");
